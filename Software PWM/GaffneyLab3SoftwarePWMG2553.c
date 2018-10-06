@@ -16,11 +16,7 @@ int main(void)
 	P1REN |= BIT3; //enables the pull up-down resistor
 	P1OUT |= BIT3; //sets the pull down resistor
 
-	//smclk = 1 Mhz
-
-	//sets clock to 250,000 hz
 	TA0CCTL1 = CCIE; //enables interupt
-	//CCR0 = 0x3E7F; //sets register to 16000 - 1
 	TA0CCR0 = 255; //sets clock to count to 255 and then reset
 	TA0CCR1 = 127; //register to change the duty cycle to 50%
 
@@ -37,10 +33,10 @@ int main(void)
 __interrupt void Port_1(void)
 { //BUTTON CLICK
     if(P1IES & BIT3){//if rising edge of button is detected
-        P1OUT |= BIT0;
+        P1OUT |= BIT0; //turns led on
         P1IES &= ~BIT3;//sets to falling edge
     }else{
-        P1OUT &= ~BIT0;
+        P1OUT &= ~BIT0; //turns LED off
         P1IES |= BIT3;//sets to falling edge
     }
 
@@ -60,7 +56,7 @@ __interrupt void Port_1(void)
 #pragma vector=TIMER0_A1_VECTOR
 __interrupt void TIMER0_A0(void) {
     //timer 0 toggle LED p1.6
-    switch(TA0IV)
+    switch(TA0IV) //seperates the different cases for the clocks interupt vector
     {
         case 2: P1OUT &= ~BIT6; break; // turns of led at compared value
         case 4: break; //CCR2 not used

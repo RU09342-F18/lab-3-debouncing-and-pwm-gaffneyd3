@@ -14,15 +14,10 @@ int main(void)
     P2DIR |= BIT0; //sets direction of p2.0 to output
     P1DIR &= ~BIT1; //sets direction of P1.3 to input
 
-
     P1REN |= BIT1; //enables the pull up-down resistor
     P1OUT |= BIT1; //sets the pull down resistor
 
-    //smclk = 1 Mhz
-
-    //sets clock to 250,000 hz
     TB0CCTL1 = CCIE; //enables interupt
-    //CCR0 = 0x3E7F; //sets register to 16000 - 1
     TB0CCR0 = 255; //sets clock to count to 255 and then reset
     TB0CCR1 = 127; //register to change the duty cycle to 50%
 
@@ -62,7 +57,7 @@ __interrupt void Port_1(void)
 #pragma vector=TIMER0_B1_VECTOR
 __interrupt void TIMER0_B0(void) {
     //timer 0 toggle LED p1.6
-    switch(TB0IV)
+    switch(TB0IV)//seperates the different cases for the clocks interupt vector
     {
         case 2: P2OUT &= ~BIT0; break; // turns of led at compared value
         case 4: break; //CCR2 not used
