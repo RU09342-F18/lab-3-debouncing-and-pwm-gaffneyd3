@@ -20,11 +20,7 @@ int main(void)
     P1REN |= BIT1; //enables the pull up-down resistor
     P1OUT |= BIT1; //sets the pull down resistor
 
-    //smclk = 1 Mhz
-
-    //sets clock to 250,000 hz
     TB1CCTL1 = OUTMOD_7; //enables interupt
-    //CCR0 = 0x3E7F; //sets register to 16000 - 1
     TB1CCR0 = 1000; //sets clock to count to 255 and then reset
     TB1CCR1 = 500; //register to change the duty cycle to 50%
 
@@ -35,7 +31,6 @@ int main(void)
     TB1CTL = TBSSEL_2 + MC_1 + ID_2; //sets clock to: SMclk sets mc to: up mode sets ID to: 4 divider
 
     __bis_SR_register(LPM0_bits + GIE);
-
 
 }
 #pragma vector = PORT1_VECTOR;
@@ -58,10 +53,7 @@ __interrupt void Port_1(void)
         TB1CCR1 = 100; //resets duty cycle
     }
 
-
     P1IFG &= ~BIT1; //clears flag
-
-
 
 
 }

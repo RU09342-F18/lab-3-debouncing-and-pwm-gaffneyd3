@@ -18,11 +18,7 @@ int main(void)
     P1REN |= BIT3; //enables the pull up-down resistor
     P1OUT |= BIT3; //sets the pull down resistor
 
-    //smclk = 1 Mhz
-
-    //sets clock to 250,000 hz
     TA0CCTL1 = OUTMOD_7; //enables interupt
-    //CCR0 = 0x3E7F; //sets register to 16000 - 1
     TA0CCR0 = 1000; //sets clock to count to 255 and then reset
     TA0CCR1 = 500; //register to change the duty cycle to 50%
 
