@@ -33,7 +33,7 @@ int main(void)
 __interrupt void Port_1(void)
 { //BUTTON CLICK
     TA0CTL = TASSEL_1 + MC_1 + ID_3; //sets clock to: A clk sets mc to: up mode sets ID to: 8 divider
-    P1IE &= ~BIT3; //enables button interupt
+    P1IE &= ~BIT3; //sets to the falling edge
 
 
 
@@ -41,10 +41,10 @@ __interrupt void Port_1(void)
 #pragma vector=TIMER0_A0_VECTOR
 __interrupt void TIMER0_A0(void) {
     //timer 0 toggle LED p1.6
-    TA0CTL = TASSEL_1 + MC_0 + ID_3; //sets clock to: A clk sets mc to: up mode sets ID to: 8 divider
-    P1OUT ^= BIT0;
-    TACTL |= TACLR;
-    P1IE |= BIT3; //enables button interupt
+    TA0CTL = TASSEL_1 + MC_0 + ID_3; //sets clock to: A clk sets mc to: off mode sets ID to: 8 divider
+    P1OUT ^= BIT0; //toggles LED
+    TACTL |= TACLR; //clears the clock
+    P1IE |= BIT3; //enables button interupt on the rising edge
     P1IFG &= ~BIT3; //clears flag
 
 }
